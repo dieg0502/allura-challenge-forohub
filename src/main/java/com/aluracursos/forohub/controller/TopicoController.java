@@ -34,6 +34,7 @@ public class TopicoController {
 
     @GetMapping
     public ResponseEntity <Page<DatosListaTopico>> listar(@PageableDefault(size = 10, sort = {"curso"}) Pageable paginacion) {
+
         var page = topicoRepository.findAllByActivoTrue(paginacion).map(DatosListaTopico::new);
         return ResponseEntity.ok(page);
     }
