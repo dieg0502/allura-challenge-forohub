@@ -1,6 +1,6 @@
-package com.aluracursos.forohub.topico;
+package com.aluracursos.forohub.domain.topico;
 
-import com.aluracursos.forohub.usuario.Usuario;
+import com.aluracursos.forohub.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -27,6 +26,7 @@ public class Topico {
     private LocalDateTime fechaCreacion;
     @ManyToOne()
     private Usuario usuario;
+    private Boolean activo;
 
     public Topico(DatosTopico datos, Usuario usuario) {
         this.titulo = datos.titulo();
@@ -34,8 +34,20 @@ public class Topico {
         this.curso = datos.curso();
         this.fechaCreacion = LocalDateTime.now();
         this.usuario = usuario;
+        this.activo = true;
     }
-
-    public Topico(@Valid DatosTopico datos) {
+    public void actualizar(@Valid DatosActualizacionTopico datos) {
+        if (datos.titulo() != null) {
+            this.titulo = datos.titulo();
+        }
+        if  (datos.mensaje() != null) {
+            this.mensaje = datos.mensaje();
+        }
+        if (datos.curso() != null) {
+            this.curso = datos.curso();
+        }
+    }
+    public void eliminar() {
+        this.activo = false;
     }
 }
